@@ -19,15 +19,6 @@ module.exports = function(app, passport){
     res.redirect('/');
   });
 
-  app.get('/users/:id', function(req, res){
-    User.findOne({username: req.params.id}, function(err, profile){
-      if(err){
-        next(err);
-      }
-      res.render('user', {user: req.user, profile: profile});
-    });
-  });
-
   app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
@@ -39,6 +30,49 @@ module.exports = function(app, passport){
     failureRedirect: '/signup',
     failureFlash: true
   }));
+
+  app.get('/users', function(req, res){
+    res.render('/users/user');
+  });
+
+  app.get('/users/:id', function(req, res){
+    User.findOne({username: req.params.id}, function(err, profile){
+      if(err){
+        next(err);
+      }
+      res.render('user', {user: req.user, profile: profile});
+    });
+  });
+
+  app.get('/settings', requireLogin, function(req, res){
+    res.render('/settings', {user: req.user});
+  });
+
+  app.post('/account', function(req, res){
+    User.findOne({username: req.user.id}, function(err, profile){
+      if(err){
+        next(err);
+      }
+      profile.firstname = req.body.firstname;
+      profile.lastname = req.body.lastname;
+      profile.description = req.body.description;
+      profile.save(function(err){
+        if(err){
+          next(err);
+        }
+        res.render('/users/:id');
+      });
+    });
+  });
+
+  app.delete('/users/:id', function(req, res){
+    User.remove({username: req.params.id}, function(err){
+      if(err){
+        next(err);
+      }
+      res.redirect('/');
+    });
+  });
 
 };
 
