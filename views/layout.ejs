@@ -25,7 +25,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if(typeof user !== 'undefined'){ %>
-            <li><a href="/users/<%= user.id %>">Welcome, <%= user.username %></a></li>
+            <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
             <li><a href="/logout">Sign out</a></li>
           <%}else{ %>
             <li><a href="/login">Log in</a></li>

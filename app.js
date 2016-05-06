@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
+var helpers = require('express-helpers')
 var partials = require('express-partials');
 var flash = require('connect-flash');
 var dbConfig = require('./config/db.js');
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+helpers(app);
 app.use(partials());
 app.use(logger('dev'));
 app.use(bodyParser.json());

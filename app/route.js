@@ -20,8 +20,12 @@ module.exports = function(app, passport){
   });
 
   app.get('/users/:id', function(req, res){
-    var profile = User.findById(req.params.id);
-    res.render('user', {user: req.user, profile: profile});
+    User.findOne({username: req.params.id}, function(err, profile){
+      if(err){
+        next(err);
+      }
+      res.render('user', {user: req.user, profile: profile});
+    });
   });
 
   app.post('/login', passport.authenticate('local-login', {
