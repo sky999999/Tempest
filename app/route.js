@@ -1,32 +1,27 @@
+var User = require('../app/models/user');
+
 module.exports = function(app, passport){
 
   app.get('/', function(req, res){
-    if(isLoggedIn(req)){
-      res.render('index', {signedin: true, user: req.user});
-    }else{
-      res.render('index', {signedin: false});
-    }
+    res.render('index', {user: req.user});
   });
 
-  app.get('/login', function(req, res){
-    if(isLoggedIn(req)){
-      res.redirect('/');
-    }else{
-      res.render('login', {message: req.flash('message'), signedin: false, user: req.user});
-    }
+  app.get('/login', requireOffline, function(req, res){
+    res.render('login', {message: req.flash('message'), user: req.user});
   });
 
-  app.get('/signup', function(req, res){
-    if(isLoggedIn(req)){
-      res.redirect('/');
-    }else{
-      res.render('signup', {message: req.flash('message'), signedin: false, user: req.user});
-    }
+  app.get('/signup', requireOffline, function(req, res){
+    res.render('signup', {message: req.flash('message'), user: req.user});
   });
 
   app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
+  });
+
+  app.get('/users/:id', function(req, res){
+    var profile = User.findById(req.params.id);
+    res.render('user', {user: req.user, profile: profile});
   });
 
   app.post('/login', passport.authenticate('local-login', {
@@ -43,6 +38,17 @@ module.exports = function(app, passport){
 
 };
 
-function isLoggedIn(req){
-  return req.isAuthenticated();
+function requireLogin(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/');
+}
+
+function requireOffline(req, res, next){
+  if(req.isAuthenticated()){
+    res.redirect('/');
+  }else{
+    return next();
+  }
 }

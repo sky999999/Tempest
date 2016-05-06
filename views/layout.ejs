@@ -24,8 +24,8 @@
           <li><a href="/">Messages</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <% if(signedin){ %>
-            <li><a href="/profile">Welcome, <%= user.firstname %> <%= user.lastname %></a></li>
+          <% if(typeof user !== 'undefined'){ %>
+            <li><a href="/users/<%= user.id %>">Welcome, <%= user.username %></a></li>
             <li><a href="/logout">Sign out</a></li>
           <%}else{ %>
             <li><a href="/login">Log in</a></li>
