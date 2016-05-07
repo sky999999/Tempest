@@ -17,3 +17,8 @@ a {
 .modal-footer{
   text-align: center;
 }
+
+.bold{
+  font-weight: bold;
+  font-size: 18px;
+}
