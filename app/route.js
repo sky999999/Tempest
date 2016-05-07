@@ -48,7 +48,7 @@ module.exports = function(app, passport){
     res.render('/settings', {user: req.user});
   });
 
-  app.post('/account', function(req, res){
+  app.post('/settings', function(req, res){
     User.findOne({username: req.user.id}, function(err, profile){
       if(err){
         next(err);
@@ -60,7 +60,7 @@ module.exports = function(app, passport){
         if(err){
           next(err);
         }
-        res.render('/users/:id');
+        res.render('/settings', {user: req.user});
       });
     });
   });

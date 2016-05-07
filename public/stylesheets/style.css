@@ -5,5 +5,11 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #0084B4;
+}
+
+.terms{
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
 }

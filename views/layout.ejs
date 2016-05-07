@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!--Custom css -->
+    <link rel="stylesheet" href="/stylesheets/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
@@ -15,23 +17,28 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
-        <div class="navbar-header"><a class="navbar-brand">Tempest</a></div>
-        <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/">Notifications</a></li>
-          <li><a href="/">Messages</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <% if(typeof user !== 'undefined'){ %>
-            <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
-            <li><a href="/logout">Sign out</a></li>
-          <%}else{ %>
-            <li><a href="/login">Log in</a></li>
-            <li><a href="/signup">Sign up</a></li>
-          <% } %>
-        </ul>
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <div class="navbar-header"><a class="navbar-brand">Tempest</a></div>
+            <ul class="nav navbar-nav">
+              <li><a href="/">Home</a></li>
+              <li><a href="/">Notifications</a></li>
+              <li><a href="/">Messages</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <% if(typeof user !== 'undefined'){ %>
+                <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
+                <li><a href="/logout">Sign out</a></li>
+              <%}else{ %>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/signup">Sign up</a></li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
       </div>
     </nav>
     <%- body %>
