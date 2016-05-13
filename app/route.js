@@ -1,4 +1,5 @@
 var User = require('../app/models/user');
+var messageController = require('../app/message_controller.js');
 
 module.exports = function(app, passport){
 
@@ -73,6 +74,8 @@ module.exports = function(app, passport){
       res.redirect('/');
     });
   });
+
+  messageController(app);
 
 };
 

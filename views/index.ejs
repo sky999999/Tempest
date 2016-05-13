@@ -2,12 +2,25 @@
 <html>
   <head>
     <title>Tempest</title>
+    <script src="../javascripts/script.js"></script>
   </head>
   <body>
     <% if (typeof user !== 'undefined') { %>
       <div class="container-fluid">
-        <h1>Tempest</h1>
-        <p>Powered by node.js</p>
+        <div class="row">
+          <div class="col-sm-3">
+            <h1>Tempest</h1>
+            <p>Powered by node.js</p>
+          </div>
+          <div class="col-sm-7">
+            <div class="form-control">
+              <p>Main</p>
+            </div>
+            <input type="hidden" id="user" value=<%= user.username %>>
+            <input type="text" class="form-control">
+            <button class="btn btn-primary">Send</button>
+          </div>
+        </div>
       </div>
     <% } else { %>
       <div class="container-fluid">
