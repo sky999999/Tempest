@@ -33,7 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect(dbConfig.url);
+mongoose.connect(dbConfig.url, err => {
+  require('child_process').exec('mongod');
+  mongoose.connect(dbConfig.url);
+});
 
 passportConfig(passport);
 app.use(session({secret: 'secretKey', resave: true, saveUninitialized: true}));
