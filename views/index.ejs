@@ -2,12 +2,28 @@
 <html>
   <head>
     <title>Tempest</title>
+    <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="../javascripts/script.js"></script>
   </head>
   <body>
     <% if (typeof user !== 'undefined') { %>
       <div class="container-fluid">
-        <h1>Tempest</h1>
-        <p>Powered by node.js</p>
+        <div class="row">
+          <div class="col-sm-3">
+            <h1>Tempest</h1>
+            <p>Powered by node.js</p>
+          </div>
+          <div class="col-sm-7">
+            <div class="form-control" id="messagebox">
+              <p>Main</p>
+            </div>
+            <form id="messageform">
+              <input type="hidden" id="user" value=<%= user.username %>>
+              <input type="text" id="messageinput" class="form-control" autocomplete="off">
+              <input type="submit" value="Send" class="btn btn-primary">
+            </form>
+          </div>
+        </div>
       </div>
     <% } else { %>
       <div class="container-fluid">

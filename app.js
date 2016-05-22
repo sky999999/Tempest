@@ -1,4 +1,5 @@
 var express = require('express');
+var sockjs = require('sockjs');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -17,6 +18,7 @@ var passportConfig = require('./config/passport');
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -31,7 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect(dbConfig.url);
+mongoose.connect(dbConfig.url, err => {
+  require('child_process').exec('mongod');
+  mongoose.connect(dbConfig.url);
+});
 
 passportConfig(passport);
 app.use(session({secret: 'secretKey', resave: true, saveUninitialized: true}));
@@ -74,6 +79,16 @@ app.use(function(err, req, res, next) {
 
 var port = process.env.PORT || 3000;
 
-app.listen(port);
+var server = sockjs.createServer({prefix: '/tempest'});
+server.on('connection', conn => {
+  conn.on('data', message => {
+    conn.write(message);
+  });
+  conn.on('close', () => {});
+});
+
+var httpServer = require('http').createServer(app);
+server.installHandlers(httpServer);
+httpServer.listen(port);
 
 module.exports = app;

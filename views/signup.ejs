@@ -4,16 +4,17 @@
     <title>Log in to Tempest</title>
   </head>
   <body>
-    <% if (message.length > 0) { %>
-      <div class="alert alert-danger">
-        <%= message %>
-      </div>
-    <% } %>
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-5 col-sm-offset-1">
           <h1>Create an account</h1>
           <br>
+          <% if (message.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          <% } %>
           <form action="/signup" method="POST">
             <div class="form-group">
               <label>Username*</label>
