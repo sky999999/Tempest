@@ -79,8 +79,15 @@ app.use(function(err, req, res, next) {
 
 var port = process.env.PORT || 3000;
 
-var httpServer = require('http').createServer(app);
 var server = sockjs.createServer({prefix: '/tempest'});
+server.on('connection', conn => {
+  conn.on('data', message => {
+    conn.write(message);
+  });
+  conn.on('close', () => {});
+});
+
+var httpServer = require('http').createServer(app);
 server.installHandlers(httpServer);
 httpServer.listen(port);
 

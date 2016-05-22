@@ -14,12 +14,14 @@
             <p>Powered by node.js</p>
           </div>
           <div class="col-sm-7">
-            <div class="form-control">
+            <div class="form-control" id="messagebox">
               <p>Main</p>
             </div>
-            <input type="hidden" id="user" value=<%= user.username %>>
-            <input type="text" class="form-control">
-            <button id="send" class="btn btn-primary">Send</button>
+            <form id="messageform">
+              <input type="hidden" id="user" value=<%= user.username %>>
+              <input type="text" id="messageinput" class="form-control" autocomplete="off">
+              <input type="submit" value="Send" class="btn btn-primary">
+            </form>
           </div>
         </div>
       </div>
