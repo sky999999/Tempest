@@ -78,6 +78,7 @@ app.use(function(err, req, res, next) {
 });
 
 var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var server = sockjs.createServer({
   log: function(severity, message){
@@ -94,6 +95,8 @@ server.on('connection', function(conn){
 
 var httpServer = require('http').createServer(app);
 server.installHandlers(httpServer);
-httpServer.listen(port);
+httpServer.listen(port, address, function(){
+  console.log('Listening on port ' + port);
+});
 
 module.exports = app;
