@@ -33,9 +33,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect(dbConfig.url, function(err){
+var url = dbConfig.url;
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+}
+
+mongoose.connect(url, function(err){
   require('child_process').exec('mongod');
-  mongoose.connect(dbConfig.url);
+  mongoose.connect(url);
 });
 
 passportConfig(passport);
