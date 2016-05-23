@@ -12,11 +12,13 @@ sock.onclose = function() {
 };
 
 $(function(){
-  console.log($('#user').val());
-  $('#messageform').submit(function(){
-    sock.send($('#messageinput').val());
-    $('#messageinput').val('');
-    return false;
-  });
+  var user = $('#user').val();
+  if(typeof user !== 'undefined'){
+    $('#messageform').submit(function(){
+      sock.send($('#messageinput').val());
+      $('#messageinput').val('');
+      return false;
+    });
+  }
 
 });

@@ -79,7 +79,12 @@ app.use(function(err, req, res, next) {
 
 var port = process.env.PORT || 3000;
 
-var server = sockjs.createServer({prefix: '/tempest'});
+var server = sockjs.createServer({
+  log: (severity, message) => {
+    if(severity === 'error') console.log('Error: ' + message);
+	},
+  prefix: '/tempest',
+});
 server.on('connection', conn => {
   conn.on('data', message => {
     conn.write(message);
