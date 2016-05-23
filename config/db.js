@@ -1,3 +1,3 @@
 module.exports = {
-  url: 'mongodb://localhost/nodeapp'
+  url: 'mongodb://localhost/tempest'
 }

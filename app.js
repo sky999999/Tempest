@@ -33,15 +33,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var url = dbConfig.url;
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+  var url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+  console.log(url);
+  mongoose.connect(url);
+}else{
+  mongoose.connect(dbConfig.url, function(err){
+    require('child_process').exec('mongod');
+    mongoose.connect(dbConfig.url);
+  });
 }
 
-mongoose.connect(url, function(err){
-  require('child_process').exec('mongod');
-  mongoose.connect(url);
-});
+
 
 passportConfig(passport);
 app.use(session({secret: 'secretKey', resave: true, saveUninitialized: true}));
