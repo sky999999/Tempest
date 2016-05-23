@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect(dbConfig.url, err => {
+mongoose.connect(dbConfig.url, function(err){
   require('child_process').exec('mongod');
   mongoose.connect(dbConfig.url);
 });
@@ -80,16 +80,16 @@ app.use(function(err, req, res, next) {
 var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 var server = sockjs.createServer({
-  log: (severity, message) => {
+  log: function(severity, message){
     if(severity === 'error') console.log('Error: ' + message);
 	},
   prefix: '/tempest',
 });
-server.on('connection', conn => {
-  conn.on('data', message => {
+server.on('connection', function(conn){
+  conn.on('data', function(message){
     conn.write(message);
   });
-  conn.on('close', () => {});
+  conn.on('close', function(){});
 });
 
 var httpServer = require('http').createServer(app);
