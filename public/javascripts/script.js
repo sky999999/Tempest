@@ -5,6 +5,7 @@ sock.onopen = function() {
 };
 sock.onmessage = function(e) {
   $('#messagebox').append('<p>' + e.data + '</p>');
+  $('#messagebox').scrollTop(10000);
   console.log('message', e.data);
 };
 sock.onclose = function() {
