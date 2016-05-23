@@ -1,0 +1,30 @@
+body {
+  padding: 50px;
+  padding-top: 70px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #0084B4;
+}
+
+#messagebox{
+  margin: 10px 0px;
+  overflow: auto;
+  height: 400px;
+}
+
+.terms{
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.modal-footer{
+  text-align: center;
+}
+
+.bold{
+  font-weight: bold;
+  font-size: 18px;
+}
