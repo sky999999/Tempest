@@ -23,8 +23,14 @@ var app = {
     }
   },
 
-  send: function(data, room){
-    this.socket.send(data);
+  send: function(message, user){
+    var data = {
+      poster: user,
+      room: this.currentroom,
+      text: message,
+      type: 'post'
+    }
+    this.socket.send(JSON.stringify(data));
   },
 
   receive: function(data){
@@ -32,33 +38,25 @@ var app = {
     if(message.roomid !== this.currentroom){
       return;
     }
+    var user = message.poster;
 
     if(message.type === 'post'){
-      $('#messagebox').append('<p>' + message.text + '</p>');
+      $('#messagebox').append('<p><strong>' + user + '</strong> ' + message.text + '</p>');
       $('#messagebox').scrollTop(10000);
       console.log('message', message.text);
     }
   }
 };
 
-var sock = new SockJS('/tempest');
-sock.onopen = function() {
-  console.log('open');
-};
-sock.onmessage = function(e) {
-  $('#messagebox').append('<p>' + e.data + '</p>');
-  $('#messagebox').scrollTop(10000);
-  console.log('message', e.data);
-};
-sock.onclose = function() {
-  console.log('close');
-};
+app.initialize();
+app.connect();
 
 $(function(){
   var user = $('#user').val();
+  
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){
-      sock.send($('#messageinput').val());
+      app.send($('#messageinput').val(), user);
       $('#messageinput').val('');
       return false;
     });
