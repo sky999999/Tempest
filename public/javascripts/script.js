@@ -5,6 +5,7 @@ var app = {
     this.currentroom = 'Main';
   },
   connect : function(){
+    var self = this;
     var constructSocket = function(){
       return new SockJS('/tempest');
     }
@@ -16,7 +17,7 @@ var app = {
       socketopened = true;
     };
     this.socket.onmessage = function(message){
-      this.receive(message.data);
+      self.receive(message.data);
     };
     this.socket.onclose = function(){
       //
@@ -35,7 +36,8 @@ var app = {
 
   receive: function(data){
     var message = JSON.parse(data);
-    if(message.roomid !== this.currentroom){
+
+    if(message.room !== this.currentroom){
       return;
     }
     var user = message.poster;
@@ -53,7 +55,7 @@ app.connect();
 
 $(function(){
   var user = $('#user').val();
-  
+
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){
       app.send($('#messageinput').val(), user);
