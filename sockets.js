@@ -19,7 +19,6 @@ var clients = {};
 var messages = [];
 
 var server = sockjs.createServer({
-  sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js',
   log: function(severity, message){
     if(severity === 'error') console.log('Error: ' + message);
   },
@@ -30,7 +29,6 @@ server.on('connection', function(conn){
   clients[conn.id] = conn;
 
   conn.on('data', function(message){
-    console.log(message);
 
     if(message.startsWith('!')){
       switch(message){
@@ -56,7 +54,6 @@ server.on('connection', function(conn){
   conn.on('close', function(){
     delete clients[conn.id];
   });
-
 
 });
 

@@ -12,7 +12,7 @@ var app = {
   connect : function(){
     var self = this;
     var constructSocket = function(){
-      return new SockJS('http://tempest-stevenli.rhcloud.com:8000/tempest');
+      return new SockJS('ws://tempest-stevenli.rhcloud.com:8000/tempest');
     }
     this.socket = constructSocket();
 
@@ -37,7 +37,7 @@ var app = {
       text: message,
       time: new Date().getTime(),
       type: 'post'
-    }
+    };
     this.socket.send(JSON.stringify(data));
   },
 
