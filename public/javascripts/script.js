@@ -12,9 +12,9 @@ var app = {
   connect : function(){
     var self = this;
     var constructSocket = function(){
-      return new SockJS('/tempest');
+      return new SockJS('127.9.239.129:8080/tempest');
     }
-    this.socket = new SockJS('http://127.9.239.129:8080/tempest');
+    this.socket = constructSocket();
 
     var socketopened = false;
 
