@@ -10,52 +10,53 @@ exports.listen = function(port, address){
   if(port !== undefined && !isNaN(port)){
     config.port = port;
   }
-}
 
-var app = require('http').createServer(express);
+  var app = require('http').createServer(express);
 
-var clients = {};
+  var clients = {};
 
-var messages = [];
+  var messages = [];
 
-var server = sockjs.createServer({
-  log: function(severity, message){
-    if(severity === 'error') console.log('Error: ' + message);
-  },
-  prefix: '/tempest'
-});
+  var server = sockjs.createServer({
+    log: function(severity, message){
+      if(severity === 'error') console.log('Error: ' + message);
+    },
+    prefix: '/tempest'
+  });
 
-server.on('connection', function(conn){
-  clients[conn.id] = conn;
+  server.on('connection', function(conn){
+    clients[conn.id] = conn;
 
-  conn.on('data', function(message){
-    if(message.startsWith('!')){
-      switch(message){
-        case '!pullmessages':
-          for(var i in messages){
-            conn.write(messages[i]);
-          }
-          break;
-        case 'default':
+    conn.on('data', function(message){
+      if(message.startsWith('!')){
+        switch(message){
+          case '!pullmessages':
+            for(var i in messages){
+              conn.write(messages[i]);
+            }
+            break;
+          case 'default':
+        }
+        return;
       }
-      return;
-    }
 
-    if(messages.length > 500){
-      messages.shift();
-    }
-    messages.push(message);
+      if(messages.length > 500){
+        messages.shift();
+      }
+      messages.push(message);
 
-    for(var client in clients){
-      clients[client].write(message);
-    }
+      for(var client in clients){
+        clients[client].write(message);
+      }
+    });
+    conn.on('close', function(){
+      delete clients[conn.id];
+    });
+
+
   });
-  conn.on('close', function(){
-    delete clients[conn.id];
-  });
 
+  server.installHandlers(app);
+  app.listen(config.port, config.address);
 
-});
-
-server.installHandlers(app);
-app.listen(config.port, config.address);
+};
