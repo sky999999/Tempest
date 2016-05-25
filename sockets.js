@@ -37,7 +37,8 @@ server.on('connection', function(conn){
             conn.write(messages[i]);
           }
           break;
-        case 'default':
+        default:
+          break;
       }
       return;
     }
