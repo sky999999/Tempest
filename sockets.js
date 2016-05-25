@@ -30,17 +30,17 @@ server.on('connection', function(conn){
 
   conn.on('data', function(message){
 
-    /*if(message.startsWith('!')){
+    if(message.startsWith('!')){
       switch(message){
         case '!pullmessages':
-          for(var i in messages){
+          for(var i = 0; i < messages.length; i++){
             conn.write(messages[i]);
           }
           break;
         case 'default':
       }
       return;
-    }*/
+    }
 
     if(messages.length > 500){
       messages.shift();
