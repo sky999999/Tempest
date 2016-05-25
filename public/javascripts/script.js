@@ -19,6 +19,7 @@ var app = {
     var socketopened = false;
 
     this.socket.onopen = function(){
+      console.log('open');
       socketopened = true;
       self.socket.send('!pullmessages');
     };
