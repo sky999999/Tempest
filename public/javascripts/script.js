@@ -19,7 +19,6 @@ var app = {
     var socketopened = false;
 
     this.socket.onopen = function(){
-      console.log('open');
       socketopened = true;
       self.socket.send('!pullmessages');
     };
@@ -44,6 +43,8 @@ var app = {
 
   receive: function(data){
     var message = JSON.parse(data);
+
+    console.log(message);
 
     if(message.room !== this.currentroom){
       return;
