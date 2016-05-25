@@ -14,7 +14,7 @@ var app = {
     var constructSocket = function(){
       return new SockJS('/tempest');
     }
-    this.socket = new SockJS('/tempest');
+    this.socket = new SockJS('https://127.9.239.129:8080/tempest');
 
     var socketopened = false;
 
