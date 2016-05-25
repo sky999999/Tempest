@@ -29,3 +29,12 @@ a {
   font-weight: bold;
   font-size: 18px;
 }
+
+.message{
+  width: 90%;
+}
+
+.messagetime{
+  float: right;
+  color: #aaa;
+}

@@ -1,5 +1,4 @@
 var express = require('express');
-var sockjs = require('sockjs');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -35,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
   var url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
-  console.log(url);
   mongoose.connect(url);
 }else{
   mongoose.connect(dbConfig.url, function(err){
@@ -83,35 +81,6 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
-});
-
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-
-var clients = {};
-
-var server = sockjs.createServer({
-  log: function(severity, message){
-    if(severity === 'error') console.log('Error: ' + message);
-	},
-  prefix: '/tempest',
-});
-server.on('connection', function(conn){
-  clients[conn.id] = conn;
-  conn.on('data', function(message){
-    for(var client in clients){
-      clients[client].write(message);
-    }
-  });
-  conn.on('close', function(){
-    delete clients[conn.id];
-  });
-});
-
-var httpServer = require('http').createServer(app);
-server.installHandlers(httpServer);
-httpServer.listen(port, address, function(){
-  console.log('Listening on port ' + port);
 });
 
 module.exports = app;
