@@ -43,7 +43,6 @@ var app = {
 
   receive: function(data){
     var message = JSON.parse(data);
-    console.log(message);
 
     if(message.room !== this.currentroom){
       return;

@@ -31,7 +31,7 @@ server.on('connection', function(conn){
   conn.on('data', function(message){
 
     if(message.charAt(0) === '!'){
-      /*switch(message){
+      switch(message){
         case '!pullmessages':
           for(var i = 0; i < messages.length; i++){
             conn.write(messages[i]);
@@ -39,7 +39,7 @@ server.on('connection', function(conn){
           break;
         default:
           break;
-      }*/
+      }
       return;
     }
 
