@@ -14,13 +14,13 @@ var app = {
     var constructSocket = function(){
       return new SockJS('/tempest');
     }
-    this.socket = constructSocket();
+    this.socket = new SockJS('/tempest');
 
     var socketopened = false;
 
     this.socket.onopen = function(){
       socketopened = true;
-      //self.socket.send('!pullmessages');
+      self.socket.send('!pullmessages');
     };
     this.socket.onmessage = function(message){
       self.receive(message.data);
