@@ -20,7 +20,7 @@ var app = {
 
     this.socket.onopen = function(){
       socketopened = true;
-      self.socket.send('!pullmessages');
+      //self.socket.send('!pullmessages');
     };
     this.socket.onmessage = function(message){
       self.receive(message.data);
@@ -43,6 +43,7 @@ var app = {
 
   receive: function(data){
     var message = JSON.parse(data);
+    console.log(message);
 
     if(message.room !== this.currentroom){
       return;
