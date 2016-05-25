@@ -12,7 +12,7 @@ var app = {
   connect : function(){
     var self = this;
     var constructSocket = function(){
-      return new SockJS('ws://tempest-stevenli.rhcloud.com:8000/tempest');
+      return new SockJS('/tempest');
     }
     this.socket = constructSocket();
 
