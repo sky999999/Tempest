@@ -12,14 +12,14 @@ var app = {
   connect : function(){
     var self = this;
     var constructSocket = function(){
-      return new SockJS('/tempest');
+      var protocol = 'https';
+      return new SockJS(protocol + '://tempest-stevenli.rhcloud.com/tempest');
     }
     this.socket = constructSocket();
 
     var socketopened = false;
 
     this.socket.onopen = function(){
-      console.log('On open');
       socketopened = true;
       self.socket.send('!pullmessages');
     };
@@ -66,7 +66,6 @@ app.connect();
 $(function(){
 
   var user = $('#user').val();
-  console.log('Before connect');
 
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){
