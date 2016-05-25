@@ -30,6 +30,8 @@ server.on('connection', function(conn){
   clients[conn.id] = conn;
 
   conn.on('data', function(message){
+    console.log(message);
+
     if(message.startsWith('!')){
       switch(message){
         case '!pullmessages':
