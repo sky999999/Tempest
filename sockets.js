@@ -12,6 +12,8 @@ exports.listen = function(port, address){
   }
 }
 
+console.log('begin');
+
 var app = require('http').createServer(express);
 
 var clients = {};

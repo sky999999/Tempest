@@ -12,8 +12,7 @@ var app = {
   connect : function(){
     var self = this;
     var constructSocket = function(){
-      var protocol = 'https';
-      return new SockJS(protocol + '://tempest-stevenli.rhcloud.com/tempest');
+      return new SockJS('/tempest');
     }
     this.socket = constructSocket();
 
