@@ -47,6 +47,7 @@ var app = {
     if(message.room !== this.currentroom){
       return;
     }
+    
     var user = message.poster;
 
     if(message.type === 'post'){
