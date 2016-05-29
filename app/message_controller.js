@@ -1,18 +1,10 @@
 var Message = require('../app/models/message');
-var Board = require('../app/models/board');
+var Room = require('../app/models/room');
 
 module.exports = function(app){
-  app.post('/message', function(req, res){
-    var message = Message();
-    message.boady = req.body.board;
-    message.user = req.user.username;
-    message.text = req.body.text;
-    message.save();
-  });
-
-  app.put('/message', function(req, res){
-    Message.findOne({board: req.body.board}).sort({time: -1}).exec(function(err, message){
-      res.send(message);
+  app.get('/rooms/:id', function(req, res){
+    Room.findOne({roomid: req.body.roomid}, function(err, message){
+      res.render('room', {roomid: req.body.roomid});
     });
   });
 }

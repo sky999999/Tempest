@@ -8,14 +8,15 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-2">
-          <h1>Tempest</h1>
-          <p>Powered by node.js</p>
+        <div class="col-sm-3">
+          <h2>Tempest</h2>
+          <label>Search for rooms</label>
+          <input type="text" id="search" class="form-control" autocomplete="off">
+          <div id="popular"></div>
         </div>
-        <div class="col-sm-8">
-          <div class="form-control" id="messagebox">
-            <p id="roomid">Main</p>
-          </div>
+        <div class="col-sm-9">
+          <div class="roomtitle"><strong class="roomid">Main</strong></div>
+          <div class="form-control" id="messagebox"></div>
           <% if (typeof user !== 'undefined') { %>
             <form id="messageform">
               <input type="hidden" id="user" value=<%= user.username %>>
@@ -27,13 +28,6 @@
               <strong>Log in or sign up to post</strong>
             </div>
           <% } %>
-        </div>
-        <div class="col-sm-2">
-          <% if (typeof user !== 'undefined') { %>
-            <h1>Settings</h1>
-          <% } else { %>
-          <% } %>
-          <h3>News</h3>
         </div>
       </row>
     </div>

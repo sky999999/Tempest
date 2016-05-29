@@ -8,11 +8,10 @@ body {
 a {
   color: #0084B4;
 }
-
 #messagebox{
   margin: 10px 0px;
   overflow: auto;
-  height: 420px;
+  height: 400px;
 }
 
 .terms{
@@ -37,4 +36,5 @@ a {
 .messagetime{
   float: right;
   color: #aaa;
+  font-size: 12px;
 }

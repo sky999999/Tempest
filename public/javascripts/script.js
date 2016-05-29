@@ -1,8 +1,12 @@
 //Javascript for loading the main chat board
 
 var todatetime = function(ms){
+  var ctime = new Date();
   var dt = new Date(ms);
-  return dt.toLocaleTimeString();
+  if(dt.toUTCString() == ctime.toUTCString()){
+    return dt.toLocaleTimeString();
+  }
+  return dt.toDateString();
 };
 
 var app = {
@@ -47,7 +51,7 @@ var app = {
     if(message.room !== this.currentroom){
       return;
     }
-    
+
     var user = message.poster;
 
     if(message.type === 'post'){

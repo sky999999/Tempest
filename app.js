@@ -36,10 +36,7 @@ if(process.env.OPENSHIFT_MONGODB_DB_URL){
   var url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
   mongoose.connect(url);
 }else{
-  mongoose.connect(dbConfig.url, function(err){
-    require('child_process').exec('mongod');
-    mongoose.connect(dbConfig.url);
-  });
+  mongoose.connect(dbConfig.url);
 }
 
 
