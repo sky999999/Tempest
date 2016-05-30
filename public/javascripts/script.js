@@ -3,7 +3,7 @@
 var todatetime = function(ms){
   var ctime = new Date();
   var dt = new Date(ms);
-  if(dt.toUTCString() == ctime.toUTCString()){
+  if(dt.toDateString() == ctime.toDateString()){
     return dt.toLocaleTimeString();
   }
   return dt.toDateString();

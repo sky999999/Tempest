@@ -36,17 +36,37 @@ module.exports = function(app, passport){
     res.render('/users/user');
   });
 
-  app.get('/users/:id', function(req, res){
+  app.get('/users/:id', function(req, res, next){
     User.findOne({username: req.params.id}, function(err, profile){
       if(err){
         next(err);
       }
-      res.render('user', {user: req.user, profile: profile});
+      if(profile){
+        res.render('user', {user: req.user, profile: profile});
+      }else{
+        var error = {username: 'Error'};
+        res.render('user', {user: req.user, profile: error});
+      }
+    });
+  });
+
+  app.post('/users/edit', function(req, res, next){
+    User.findById(req.body.id, function(err, profile){
+      if(err){
+        next(err);
+      }
+      if(profile){
+        profile.firstname = req.body.firstname;
+        profile.lastname = req.body.lastname;
+        profile.description = req.body.description;
+        profile.save();
+      }
+      res.redirect('/users/' + req.body.username);
     });
   });
 
   app.get('/settings', requireLogin, function(req, res){
-    res.render('/settings', {user: req.user});
+    res.render('settings', {user: req.user});
   });
 
   app.post('/settings', function(req, res){

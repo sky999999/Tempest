@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tempest - <%= roomid %></title>
+    <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="../javascripts/script.js"></script>
+  </head>
+  <body>
+    <% if (exists) { %>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3">
+            <h2>Tempest</h2>
+            <label>Search for rooms</label>
+            <input type="text" id="search" class="form-control" autocomplete="off">
+            <div id="popular"></div>
+          </div>
+          <div class="col-sm-9">
+            <div class="roomtitle"><strong class="roomid">Main</strong></div>
+            <div class="form-control" id="messagebox"></div>
+            <% if (user) { %>
+              <form id="messageform">
+                <input type="hidden" id="user" value=<%= user.username %>>
+                <input type="hidden" id="user" value=<%= roomid %>>
+                <input type="text" id="messageinput" class="form-control" autocomplete="off">
+                <input type="submit" value="Send" class="btn btn-primary">
+              </form>
+            <% } else { %>
+              <div class="container">
+                <strong>Log in or sign up to post</strong>
+              </div>
+            <% } %>
+          </div>
+        </row>
+      </div>
+    <% } else { %>
+      <div class="alert alert-danger" role="alert">
+        <p>The room you are looking for does not exist.</p>
+      </div>
+    <% } %>
+  </body>
+</html>

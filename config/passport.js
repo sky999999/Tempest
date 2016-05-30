@@ -47,7 +47,8 @@ module.exports = function(passport){
           if(user){
             return done(null, false, req.flash('message', 'Email already in use'));
           }
-          User.findOne({'username': req.body.username}, function(err, user){
+          var lcusername = req.body.username.toLowerCase();
+          User.findOne({'username': lcusername}, function(err, user){
             if(err){
               return done(err);
             }
@@ -55,7 +56,7 @@ module.exports = function(passport){
               return done(null, false, req.flash('message', 'Username already in use'));
             }
             var newUser = new User();
-            newUser.username = req.body.username;
+            newUser.username = lcusername;
             newUser.password = newUser.generateHash(password);
             newUser.email = username;
             newUser.firstname = req.body.firstname;
