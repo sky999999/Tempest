@@ -1,5 +1,7 @@
 var User = require('../app/models/user');
 var messageController = require('../app/message_controller.js');
+var requireLogin = messageController.requireLogin;
+var requireOffline = messageController.requireOffline;
 
 module.exports = function(app, passport){
 
@@ -32,10 +34,6 @@ module.exports = function(app, passport){
     failureFlash: true
   }));
 
-  app.get('/users', function(req, res){
-    res.render('/users/user');
-  });
-
   app.get('/users/:id', function(req, res, next){
     User.findOne({username: req.params.id}, function(err, profile){
       if(err){
@@ -44,25 +42,28 @@ module.exports = function(app, passport){
       if(profile){
         res.render('user', {user: req.user, profile: profile});
       }else{
-        var error = {username: 'Error'};
-        res.render('user', {user: req.user, profile: error});
+        next();
       }
     });
   });
 
   app.post('/users/edit', function(req, res, next){
-    User.findById(req.body.id, function(err, profile){
-      if(err){
-        next(err);
-      }
-      if(profile){
-        profile.firstname = req.body.firstname;
-        profile.lastname = req.body.lastname;
-        profile.description = req.body.description;
-        profile.save();
-      }
+    if(req.body.firstname.length <= 0 || req.body.lastname.length <= 0){
       res.redirect('/users/' + req.body.username);
-    });
+    }else{
+      User.findById(req.body.id, function(err, profile){
+        if(err){
+          next(err);
+        }
+        if(profile){
+          profile.firstname = req.body.firstname;
+          profile.lastname = req.body.lastname;
+          profile.description = req.body.description;
+          profile.save();
+        }
+        res.redirect('/users/' + req.body.username);
+      });
+    }
   });
 
   app.get('/settings', requireLogin, function(req, res){
@@ -95,21 +96,21 @@ module.exports = function(app, passport){
     });
   });
 
-  messageController(app);
+  messageController.roomController(app);
 
 };
-
+/*
 function requireLogin(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  res.redirect('/');
+  res.redirect('/login');
 }
 
 function requireOffline(req, res, next){
   if(req.isAuthenticated()){
-    res.redirect('/');
+    res.redirect('/login');
   }else{
     return next();
   }
-}
+}*/

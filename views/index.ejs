@@ -8,20 +8,26 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3">
-          <h2>Tempest</h2>
+        <div class="col-sm-5">
+          <div class="subheader"><span style="font-size: 24px">Tempest</span> Powered by nodejs</div>
           <label>Search for rooms</label>
           <input type="text" id="search" class="form-control" autocomplete="off">
-          <div id="popular"></div>
+          <br>
+          <strong>Popular</strong>
+          <div id="popular">
+          </div>
+          <div class="random"><a href="/random">Random</a></div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-7">
           <div class="roomtitle"><strong class="roomid">Main</strong></div>
           <div class="form-control" id="messagebox"></div>
           <% if (user) { %>
             <form id="messageform">
               <input type="hidden" id="user" value=<%= user.username %>>
-              <input type="text" id="messageinput" class="form-control" autocomplete="off">
-              <input type="submit" value="Send" class="btn btn-primary">
+              <div class="input-group">
+                <input type="text" id="messageinput" class="form-control" autocomplete="off">
+                <div class="input-group-btn"><input type="submit" value="Send" class="btn btn-default"></div>
+              </div>
             </form>
           <% } else { %>
             <div class="container">

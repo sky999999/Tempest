@@ -9,6 +9,12 @@ var todatetime = function(ms){
   return dt.toDateString();
 };
 
+var rooms = {
+  loadrooms: function(){
+    //
+  }
+};
+
 var app = {
   initialize: function(){
     this.currentroom = 'Main';
@@ -71,10 +77,17 @@ $(function(){
 
   var user = $('#user').val();
 
+  for(var i = 0; i < 16; ++i){
+    $("#popular").append("<a><strong>New room</strong></a><br><p>Description.txt</p>");
+  }
+
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){
-      app.send($('#messageinput').val(), user);
-      $('#messageinput').val('');
+      var message = $("#messageinput").val();
+      if(message.length > 0){
+        app.send(message, user);
+        $('#messageinput').val('');
+      }
       return false;
     });
   }

@@ -8,10 +8,30 @@ body {
 a {
   color: #0084B4;
 }
+
+p {
+  line-height: 1.5em;
+}
+
 #messagebox{
   margin: 10px 0px;
   overflow: auto;
   height: 400px;
+}
+
+#popular{
+  margin-top: 10px;
+  max-height: 256px;
+  overflow-y: auto;
+}
+
+.subheader{
+  margin-bottom: 20px;
+}
+
+.random{
+  margin: 20px 0px;
+  font-weight: bold;
 }
 
 .terms{
@@ -37,4 +57,10 @@ a {
   float: right;
   color: #aaa;
   font-size: 12px;
+}
+
+.error{
+  margin: 40px 0px;
+  text-align: center;
+  line-height: 2em;
 }
