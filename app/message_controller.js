@@ -37,6 +37,24 @@ exports.roomController = function(app){
     res.redirect(roomid);
   });
 
+  app.get('/search/:roomid', function(req, res){
+    var query = req.params.roomid.toLowerCase();
+    Room.find({roomid: new RegExp(query)}, function(err, docs){
+      if(err){
+        res.send(null);
+      }else if(docs){
+        var rooms = {};
+        for(var i = 0; i < 4 && i < docs.length; ++i){
+          rooms['_' + i] = docs[i];
+        }
+        res.json(rooms);
+      }else{
+        console.log('No such room found');
+        res.json(null);
+      }
+    });
+  });
+
   app.get('/new', requireLogin, function(req, res){
     res.render('new', {message: req.flash('message')});
   });

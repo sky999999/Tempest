@@ -18,32 +18,30 @@
   </head>
   <body>
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-5">
-          <div class="navbar-header"><a class="navbar-brand">Tempest</a></div>
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/">Notifications</a></li>
-            <li><a href="/">Messages</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-5">
-          <ul class="nav navbar-nav">
-            <li class="searchbar">
-              <input class="form-control" id="search" autocomplete="off" placeholder="Search for rooms">
-            </li>
-            <% if(typeof user !== 'undefined'){ %>
-              <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
-              <li><a href="/logout">Sign out</a></li>
-            <%}else{ %>
-              <li><a href="" data-toggle="modal" data-target="#loginmodal">Log in</a></li>
-              <li><a href="/signup">Sign up</a></li>
-            <% } %>
-          </ul>
-        </div>
-      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="searchbar">
+          <form action="/query/" method="GET">
+            <input class="form-control" id="search" autocomplete="off" placeholder="Search for rooms">
+          </form>
+          <div id="results">
+          </div>
+        </li>
+        <% if(typeof user !== 'undefined'){ %>
+          <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
+          <li><a href="/logout">Sign out</a></li>
+        <%}else{ %>
+          <li><a href="" data-toggle="modal" data-target="#loginmodal">Log in</a></li>
+          <li><a href="/signup">Sign up</a></li>
+        <% } %>
+      </ul>
+      <div class="navbar-header"><a class="navbar-brand">Tempest</a></div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/">Notifications</a></li>
+        <li><a href="/">Messages</a></li>
+      </ul>
     </nav>
+
     <div id="loginmodal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">

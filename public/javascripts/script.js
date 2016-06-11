@@ -77,17 +77,29 @@ $(function(){
 
   var user = $('#user').val();
 
-  for(var i = 0; i < 16; ++i){
+  for(var i = 0; i < 5; ++i){
     $('#popular').append('<a><strong>New room</strong></a><br><p>Description.txt</p>');
   }
 
-  $('#search').change(function(){
+  $('#results').hide();
+  $('#search').on('change keyup paste', function(){
     var text = $('#search').val();
-    console.log(text);
     if(text === ''){
       $('#results').empty();
+      $('#results').hide();
     }else{
-      $('#results').append('<p>Search for ' + text + '</p>');
+      $.get('/search/' + text, function(matches){
+        $('#results').empty();
+        if(matches){
+          for(var k in matches){
+            var match = matches[k];
+            $('#results').append('<a class="result" href="/rooms/' + match.roomid + '">' + match.roomid + '</a>');
+          }
+        }
+        $('#results').append('<div class="separator"></div>');
+        $('#results').append('<a class="prompt" href="">Search for ' + text + '</a>');$
+        $('#results').show();
+      });
     }
   });
 
