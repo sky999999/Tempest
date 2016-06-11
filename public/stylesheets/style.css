@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 10px;
   padding-top: 70px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   overflow-x: hidden;
@@ -23,6 +23,16 @@ p {
   margin-top: 10px;
   max-height: 256px;
   overflow-y: auto;
+}
+
+#search{
+  border-radius: 16px;
+}
+
+.searchbar{
+  height: 50px;
+  padding: 16px;
+  padding-top: 8px;
 }
 
 .subheader{

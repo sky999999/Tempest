@@ -1,39 +1,41 @@
-var sockjs = require('sockjs');
-var express = require('./app.js');
+'use strict';
 
-var config = {
+let sockjs = require('sockjs');
+let express = require('./app.js');
+
+let config = {
   port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
   address: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 }
 
-exports.listen = function(port, address){
+exports.listen = (port, address) => {
   if(port !== undefined && !isNaN(port)){
     config.port = port;
   }
 }
 
-var app = require('http').createServer(express);
+let app = require('http').createServer(express);
 
-var clients = {};
+let clients = {};
 
-var messages = [];
+let messages = [];
 
-var server = sockjs.createServer({
-  log: function(severity, message){
+let server = sockjs.createServer({
+  log: (severity, message) => {
     if(severity === 'error') console.log('Error: ' + message);
   },
   prefix: '/tempest'
 });
 
-server.on('connection', function(conn){
+server.on('connection', (conn) => {
   clients[conn.id] = conn;
 
-  conn.on('data', function(message){
+  conn.on('data', (message) => {
 
     if(message.charAt(0) === '!'){
       switch(message){
         case '!pullmessages':
-          for(var i = 0; i < messages.length; i++){
+          for(let i = 0; i < messages.length; i++){
             conn.write(messages[i]);
           }
           break;
@@ -48,11 +50,11 @@ server.on('connection', function(conn){
     }
     messages.push(message);
 
-    for(var client in clients){
+    for(let client in clients){
       clients[client].write(message);
     }
   });
-  conn.on('close', function(){
+  conn.on('close', () => {
     delete clients[conn.id];
   });
 

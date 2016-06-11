@@ -78,8 +78,18 @@ $(function(){
   var user = $('#user').val();
 
   for(var i = 0; i < 16; ++i){
-    $("#popular").append("<a><strong>New room</strong></a><br><p>Description.txt</p>");
+    $('#popular').append('<a><strong>New room</strong></a><br><p>Description.txt</p>');
   }
+
+  $('#search').change(function(){
+    var text = $('#search').val();
+    console.log(text);
+    if(text === ''){
+      $('#results').empty();
+    }else{
+      $('#results').append('<p>Search for ' + text + '</p>');
+    }
+  });
 
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){

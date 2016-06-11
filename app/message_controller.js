@@ -25,9 +25,9 @@ exports.roomController = function(app){
       }
       if(room){
         /*todo: Check if the user is banned*/
-        res.render('rooms/room', {roomid: req.params.roomid, user: req.user, exists: true});
+        res.render('room', {roomid: req.params.roomid, description: room.description, user: req.user, exists: true});
       }else{
-        res.render('rooms/room', {roomid: 'Error', user: req.user, exists: false});
+        res.render('room', {roomid: 'Error', description: '', user: req.user, exists: false});
       }
     });
   });
@@ -42,7 +42,8 @@ exports.roomController = function(app){
   });
 
   app.post('/new', requireLogin, function(req, res, next){
-    Room.findOne({roomid: req.body.roomid}, function(err, room){
+    var roomid = req.body.roomid.toLowerCase();
+    Room.findOne({roomid: roomid}, function(err, room){
       if(err){
         next(err);
       }
@@ -51,7 +52,7 @@ exports.roomController = function(app){
         res.redirect('/new');
       }else{
         var newroom = new Room();
-        newroom.roomid = req.body.roomid;
+        newroom.roomid = roomid;
         newroom.access = req.body.access;
         newroom.description = req.body.description;
         newroom.save(function(err){

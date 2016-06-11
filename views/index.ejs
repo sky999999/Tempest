@@ -8,17 +8,14 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-5">
-          <div class="subheader"><span style="font-size: 24px">Tempest</span> Powered by nodejs</div>
-          <label>Search for rooms</label>
-          <input type="text" id="search" class="form-control" autocomplete="off">
+        <div class="col-sm-3">
+          <div class="subheader"><h3>Tempest</h3></div>
           <br>
           <strong>Popular</strong>
-          <div id="popular">
-          </div>
+          <div id="popular"></div>
           <div class="random"><a href="/random">Random</a></div>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-6">
           <div class="roomtitle"><strong class="roomid">Main</strong></div>
           <div class="form-control" id="messagebox"></div>
           <% if (user) { %>
@@ -33,6 +30,17 @@
             <div class="container">
               <strong>Log in or sign up to post</strong>
             </div>
+          <% } %>
+        </div>
+        <div class="col-sm-3">
+          <h3>Welcome to Tempest</h3>
+          <p>Powered by node.js</p>
+          <% if (user) { %>
+            <p>There are many user-created rooms that host discussion for their specific purposes. You can access any one by simply typing /room/ plus the name into the address bar after the web url, or search for one. If you have nothing particular in mind, you can simply use the main lobby for general discussion.</p>
+            <p>Can't find anything that suits you? You can create a new room for any new interest or subject, or make a private one for only people you know. Tempest exists on user-created content.</p>
+            <a href="/new">Create a new room</a>
+          <% } else { %>
+            <p>Please log in or sign up.</p>
           <% } %>
         </div>
       </row>
