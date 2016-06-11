@@ -14,7 +14,7 @@ exports.listen = (port, address) => {
   }
 }
 
-let app = require('http').createServer(express);
+var app = require('http').createServer(express);
 
 let clients = {};
 
