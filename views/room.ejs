@@ -3,7 +3,7 @@
   <head>
     <title>Tempest - <%= roomid %></title>
     <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
-    <script src="../javascripts/script.js"></script>
+    <script src="../javascripts/room.js"></script>
   </head>
   <body>
     <% if (exists) { %>
@@ -15,7 +15,7 @@
             <% if (user) { %>
               <form id="messageform">
                 <input type="hidden" id="user" value=<%= user.username %>>
-                <input type="hidden" id="user" value=<%= roomid %>>
+                <input type="hidden" id="room" value=<%= roomid %>>
                 <div class="input-group">
                   <input type="text" id="messageinput" class="form-control" autocomplete="off">
                   <div class="input-group-btn"><input type="submit" value="Send" class="btn btn-default"></div>

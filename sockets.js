@@ -15,7 +15,6 @@ exports.listen = function(port, address){
 var app = require('http').createServer(express);
 
 var clients = {};
-
 var messages = [];
 
 var server = sockjs.createServer({

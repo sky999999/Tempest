@@ -5,14 +5,19 @@
   </head>
   <body>
     <div class="container">
-      <div style="width: 25%">
-        <% if(user) {%>
-          <a href="/settings" class="btn btn-default" style="float:right">Edit profile</a>
-        <% } %>
-        <h1><%= profile.firstname %> <%= profile.lastname %></h1><br>
-      </div>
+      <table>
+        <tr>
+          <td>
+            <h2><%= profile.firstname %> <%= profile.lastname %></h2>
+          </td>
+          <% if(user) {%>
+            <td>
+              <a href="/settings" class="btn btn-tempest editprofile">Edit profile</a>
+            </td>
+          <% } %>
+        </tr>
       </table>
-      <p style="color:gray"><%= profile.username %></p><br>
+      <p style="color:gray">@<%= profile.username %></p><br>
       <p><%= profile.description %></p>
     </div>
   </body>
