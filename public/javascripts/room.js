@@ -13,8 +13,13 @@ var todatetime = function(ms){
 var app = {
   initialize: function(){
     this.currentroom = $('#room').val();
+    this.user = $('#user').val();
   },
   connect : function(){
+    if(!user){
+      return;
+    }
+
     var self = this;
     var constructSocket = function(){
       return new SockJS('/tempest');
@@ -25,7 +30,8 @@ var app = {
 
     this.socket.onopen = function(){
       socketopened = true;
-      self.socket.send('!pullmessages');
+      self.socket.send(JSON.stringify({type: 'join', 'user': self.user, room: self.currentroom}));
+      self.socket.send(JSON.stringify({type: 'pullmessages', room: self.currentroom}));
     };
     this.socket.onmessage = function(message){
       self.receive(message.data);
@@ -33,6 +39,11 @@ var app = {
     this.socket.onclose = function(){
       //
     }
+  },
+
+  disconnect: function(){
+    this.socket.send(JSON.stringify({type: 'exit', 'user': this.user, room: this.currentroom}));
+    this.socket.close();
   },
 
   send: function(message, user){
@@ -48,9 +59,25 @@ var app = {
   },
 
   receive: function(data){
+    var self = this;
+    if(data === '!update'){
+      this.socket.send(JSON.stringify({type: 'getusers', room: self.currentroom}))
+      return;
+    }
+
     var message = JSON.parse(data);
 
     if(message.room !== this.currentroom){
+      return;
+    }
+
+    if(message.type === 'users'){
+      $('#activeusers').empty();
+      for(var user in message){
+        if(user !== 'type' && user !== 'room'){
+          $('#activeusers').append('<p>' + user + '</p>');
+        }
+      }
       return;
     }
 
@@ -68,12 +95,11 @@ var app = {
   }
 };
 
-app.connect();
 
 $(function(){
-  app.initialize();
-
   var user = $('#user').val();
+  app.initialize();
+  app.connect();
 
   for(var i = 0; i < 5; ++i){
     $('#popular').append('<a><strong>New room</strong></a><br><p>Description.txt</p>');
@@ -90,4 +116,8 @@ $(function(){
     });
   }
 
+  window.onbeforeunload = function(e){
+    app.disconnect();
+    return null;
+  }
 });

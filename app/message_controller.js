@@ -56,7 +56,7 @@ exports.roomController = function(app){
   });
 
   app.get('/new', requireLogin, function(req, res){
-    res.render('new', {message: req.flash('message')});
+    res.render('new', {message: req.flash('message'), user: req.user});
   });
 
   app.post('/new', requireLogin, function(req, res, next){

@@ -15,6 +15,7 @@ exports.listen = function(port, address){
 var app = require('http').createServer(express);
 
 var clients = {};
+var rooms = {};
 var messages = [];
 
 var server = sockjs.createServer({
@@ -28,27 +29,45 @@ server.on('connection', function(conn){
   clients[conn.id] = conn;
 
   conn.on('data', function(message){
-
-    if(message.charAt(0) === '!'){
-      switch(message){
-        case '!pullmessages':
-          for(var i = 0; i < messages.length; i++){
-            conn.write(messages[i]);
-          }
-          break;
-        default:
-          break;
+    var object = JSON.parse(message);
+    if(object.type === 'pullmessages'){
+      for(var i = 0; i < messages.length; i++){
+        conn.write(messages[i]);
       }
-      return;
-    }
+    }else if(object.type === 'getusers'){
+      var active = {};
+      var i = 0;
+      for(var user in rooms[object.room]){
+        active[user] = 1;
+        i++;
+      }
+      active.room = object.room;
+      active.type = 'users';
+      conn.write(JSON.stringify(active));
+    }else if(object.type === 'join'){
+      if(!rooms[object.room]){
+        rooms[object.room] = {};
+      }
+      rooms[object.room][object.user] = conn;
+      for(var user in rooms[object.room]){
+        rooms[object.room][user].write('!update');
+      }
+    }else if(object.type === 'exit'){
+      if(rooms[object.room]){
+        delete rooms[object.room][object.user];
+      }
+      for(var user in rooms[object.room]){
+        rooms[object.room][user].write('!update');
+      }
+    }else if(object.type === 'post'){
+      if(messages.length > 500){
+        messages.shift();
+      }
+      messages.push(message);
 
-    if(messages.length > 500){
-      messages.shift();
-    }
-    messages.push(message);
-
-    for(var client in clients){
-      clients[client].write(message);
+      for(var client in clients){
+        clients[client].write(message);
+      }
     }
   });
   conn.on('close', function(){
