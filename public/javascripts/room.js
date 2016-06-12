@@ -16,7 +16,7 @@ var app = {
     this.user = $('#user').val();
   },
   connect : function(){
-    if(!user){
+    if(!(this.user)){
       return;
     }
 
