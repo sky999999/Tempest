@@ -41,7 +41,7 @@
           </row>
         </div>
       <% } else if (room.access === 'private') { %>
-        <% if (user && room.moderators.indexOf(user.username)) { %>
+        <% if (user && room.moderators.indexOf(user.username) > -1) { %>
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-7">
