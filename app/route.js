@@ -99,18 +99,3 @@ module.exports = function(app, passport){
   messageController.roomController(app);
 
 };
-/*
-function requireLogin(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-}
-
-function requireOffline(req, res, next){
-  if(req.isAuthenticated()){
-    res.redirect('/login');
-  }else{
-    return next();
-  }
-}*/

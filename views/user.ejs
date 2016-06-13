@@ -10,7 +10,7 @@
           <td>
             <h2><%= profile.firstname %> <%= profile.lastname %></h2>
           </td>
-          <% if(user) {%>
+          <% if(user && user.username === profile.username) {%>
             <td>
               <a href="/settings" class="btn btn-tempest editprofile">Edit profile</a>
             </td>

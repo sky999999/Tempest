@@ -75,7 +75,7 @@ var app = {
       $('#activeusers').empty();
       for(var user in message){
         if(user !== 'type' && user !== 'room'){
-          $('#activeusers').append('<p>' + user + '</p>');
+          $('#activeusers').append('<a href="/users/' + user + '">' + user + '</a>&nbsp');
         }
       }
       return;

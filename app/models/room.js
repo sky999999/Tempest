@@ -10,6 +10,10 @@ var schema = mongoose.Schema({
     default: 'public',
     required: true
   },
+  creator: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true
@@ -17,6 +21,12 @@ var schema = mongoose.Schema({
   date_created: {
     type: Date,
     default: Date.now
+  },
+  moderators: {
+    type: [String]
+  },
+  banned: {
+    type: [String]
   }
 });
 

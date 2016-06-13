@@ -57,7 +57,7 @@ nav{
 
 .result:hover{
   color: white;
-  background-color: #0084B4;
+  background-color: #0084b4;
   text-decoration: none;
 }
 
@@ -123,14 +123,28 @@ nav{
 .btn-tempest{
   border: 1px solid #d6d6d6;
   border-radius: 16px;
-  -webkit-transition: all 0.2s;
   color: black;
   background-color: white;
+  -webkit-transition: all 0.2s;
 }
 
 .btn-tempest:hover{
   color: black;
   background-color: #f1f1f1;
+}
+
+.btn-tempest2{
+  border: 1px solid #2e6da4;
+  border-radius: 16px;
+  color: white;
+  background-color: #337ab7;
+  -webkit-transition: all 0.2s;
+}
+
+.btn-tempest2:hover{
+  border-color: #2e6090;
+  color: white;
+  background-color: #204d74;
 }
 
 .editprofile{

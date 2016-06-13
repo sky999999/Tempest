@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= profile.username %></title>
+  </head>
+  <body>
+    <div class="container">
+      <% if(success) { %>
+        <p>The action was performed successfully</p>
+      <% } else { %>
+        <div class="alert alert-danger">Illegal action</div>
+      <% } %>
+      <a href="/">Return to Tempest</a>
+    </div>
+  </body>
+</html>

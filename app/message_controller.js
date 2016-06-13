@@ -25,7 +25,7 @@ exports.roomController = function(app){
       }
       if(room){
         /*todo: Check if the user is banned*/
-        res.render('room', {roomid: req.params.roomid, description: room.description, user: req.user, exists: true});
+        res.render('room', {roomid: req.params.roomid, room: room, user: req.user, exists: true});
       }else{
         res.render('room', {roomid: 'Error', description: '', user: req.user, exists: false});
       }
@@ -72,7 +72,10 @@ exports.roomController = function(app){
         var newroom = new Room();
         newroom.roomid = roomid;
         newroom.access = req.body.access;
+        newroom.creator = req.user.username;
         newroom.description = req.body.description;
+        newroom.moderators = [req.user.username];
+        newroom.banned = [];
         newroom.save(function(err){
           if(err){
             res.locals.message = req.flash('Required parameters are missing');
@@ -81,6 +84,47 @@ exports.roomController = function(app){
             res.redirect('/rooms/' + req.body.roomid);
           }
         });
+      }
+    });
+  });
+
+  app.post('/edit/:roomid', requireLogin, function(req, res, next){
+    Room.findOne({roomid: req.body.roomid}, function(err, room){
+      if(err){
+        next(err);
+      }
+      if(room){
+        if(room.creator !== req.user.username){
+          res.redirect('action', {status: 'illegal'});
+        }
+        room.description = req.body.description;
+        room.save(function(err){
+          if(err){
+            res.locals.message = req.flash('Required parameters are missing');
+          }
+          res.redirect('/rooms/' + req.body.roomid);
+        });
+      }
+    });
+  });
+
+  app.post('/close/:roomid', requireLogin, function(req, res, next){
+    Room.findOne({roomid: req.body.roomid}, function(err, room){
+      if(err){
+        next(err);
+      }
+      if(room){
+        if(room.creator !== req.user.username){
+          res.render('action', {status: 'illegal'});
+        }else{
+          room.access = 'closed';
+          room.save(function(err){
+            if(err){
+              next(err);
+            }
+            res.render('room', {status: 'success'});
+          });
+        }
       }
     });
   });

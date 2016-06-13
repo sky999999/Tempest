@@ -3,38 +3,98 @@
   <head>
     <title>Tempest - <%= roomid %></title>
     <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
-    <script src="../javascripts/room.js"></script>
+    <script src="../javascripts/clientroom.js"></script>
   </head>
   <body>
     <% if (exists) { %>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-7">
-            <div class="roomtitle"><strong class="roomid"><%= roomid %></strong></div>
-            <div class="form-control" id="messagebox"></div>
-            <% if (user) { %>
-              <form id="messageform">
-                <input type="hidden" id="user" value=<%= user.username %>>
-                <input type="hidden" id="room" value=<%= roomid %>>
-                <div class="input-group">
-                  <input type="text" id="messageinput" class="form-control" autocomplete="off">
-                  <div class="input-group-btn"><input type="submit" value="Send" class="btn btn-default"></div>
+      <% if (room.access === 'public') { %>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-7">
+              <div class="roomtitle"><strong class="roomid"><%= roomid %></strong></div>
+              <div class="form-control" id="messagebox"></div>
+              <% if (user) { %>
+                <form id="messageform">
+                  <input type="hidden" id="user" value=<%= user.username %>>
+                  <input type="hidden" id="room" value=<%= roomid %>>
+                  <div class="input-group">
+                    <input type="text" id="messageinput" class="form-control" autocomplete="off">
+                    <div class="input-group-btn"><input type="submit" value="Send" class="btn btn-default"></div>
+                  </div>
+                </form>
+              <% } else { %>
+                <div class="container">
+                  <strong>Log in or sign up to post</strong>
                 </div>
-              </form>
-            <% } else { %>
-              <div class="container">
-                <strong>Log in or sign up to post</strong>
+              <% } %>
+            </div>
+            <div class="col-sm-5">
+              <h3><%= roomid %></h3>
+              <% if (user && room.moderators.indexOf(user.username) > -1) { %>
+                <span class="label label-default">Moderator</span>
+                <%- link_to("Edit", "/edit/" + roomid) %> | <a href="" data-toggle="modal" data-target="#close">Close</a><br><br>
+              <% } %>
+              <p><%= room.description %></p>
+              <strong>Active users</strong>
+              <div id="activeusers"></div>
+            </div>
+          </row>
+        </div>
+      <% } else if (room.access === 'private') { %>
+        <% if (user && room.moderators.indexOf(user.username)) { %>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-7">
+                <div class="roomtitle"><strong class="roomid"><%= roomid %></strong></div>
+                <div class="form-control" id="messagebox"></div>
+                <% if (user) { %>
+                  <form id="messageform">
+                    <input type="hidden" id="user" value=<%= user.username %>>
+                    <input type="hidden" id="room" value=<%= roomid %>>
+                    <div class="input-group">
+                      <input type="text" id="messageinput" class="form-control" autocomplete="off">
+                      <div class="input-group-btn"><input type="submit" value="Send" class="btn btn-default"></div>
+                    </div>
+                  </form>
+                <% } else { %>
+                  <div class="container">
+                    <strong>Log in or sign up to post</strong>
+                  </div>
+                <% } %>
               </div>
-            <% } %>
+              <div class="col-sm-5">
+                <h3><%= roomid %></h3>
+                <span class="label label-default">Private group</span>
+                <%- link_to("Edit", "/edit/" + roomid) %> | <a href="" data-toggle="modal" data-target="#close">Close</a><br><br>
+                <p><%= room.description %></p>
+                <strong>Active users</strong>
+                <div id="activeusers"></div>
+              </div>
+            </row>
           </div>
-          <div class="col-sm-5">
-            <h3><%= roomid %></h3>
-            <p><%= description %></p>
-            <strong>Active users</strong>
-            <div id="activeusers">
+        <% } else { %>
+          <h2>This room is private.</h2>
+        <% } %>
+      <% } else if (room.access === 'closed') { %>
+        <h2>This room has been shut down.</h2>
+      <% } %>
+      <div id="close" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4>Close this room</h4>
+            </div>
+            <div class="modal-body">
+              <p>Once it is closed, it can no longer be used or seen by anyone.</p>
+              <p>Close <em><%= roomid %></em>?</p>
+            </div>
+            <div class="modal-footer">
+              <%- link_to("Close", "/close/" + roomid, {class: "btn btn-tempest2"}) %>
+              <button class="btn btn-tempest" data-dismiss="modal">Cancel</button>
             </div>
           </div>
-        </row>
+        </div>
       </div>
     <% } else { %>
       <div class="alert alert-danger" role="alert">
