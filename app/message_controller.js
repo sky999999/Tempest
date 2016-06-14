@@ -39,7 +39,7 @@ exports.roomController = function(app){
 
   app.get('/search/:roomid', function(req, res){
     var query = req.params.roomid.toLowerCase();
-    Room.find({roomid: new RegExp(query)}, function(err, docs){
+    Room.find({roomid: new RegExp('^' + query)}, function(err, docs){
       if(err){
         res.send(null);
       }else if(docs){
