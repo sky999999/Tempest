@@ -47,9 +47,13 @@
         </row>
       </div>
     <% } else if (room.access === 'private') { %>
-      <h2>This room is private.</h2>
+      <div class="error">
+        <h2>This room is private.</h2>
+      </div>
     <% } else if (room.access === 'closed') { %>
-      <h2>This room has been shut down.</h2>
+      <div class="error">
+        <h2>This room has been shut down.</h2>
+      </div>
     <% } %>
     <div id="close" class="modal fade" role="dialog">
       <div class="modal-dialog">

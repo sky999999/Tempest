@@ -91,7 +91,7 @@ exports.roomController = function(app){
               res.locals.message = req.flash('message', 'Required parameters are missing');
               res.redirect('/new');
             }else{
-              res.redirect('/rooms/' + req.body.roomid);
+              res.redirect('/rooms/' + roomid);
             }
           });
         }
@@ -108,6 +108,7 @@ exports.roomController = function(app){
         if(room.creator !== req.user.username){
           res.redirect('action', {status: 'illegal'});
         }
+        room.access = req.body.access;
         room.description = req.body.description;
         room.save(function(err){
           if(err){
