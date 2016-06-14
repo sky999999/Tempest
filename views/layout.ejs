@@ -27,7 +27,7 @@
           <div id="results">
           </div>
         </li>
-        <% if(typeof user !== 'undefined'){ %>
+        <% if(user) { %>
           <li><%- link_to("Welcome, " + user.username, "/users/" + user.username) %></li>
           <li><a href="/logout">Sign out</a></li>
         <%}else{ %>
@@ -38,7 +38,9 @@
       <div class="navbar-header"><a class="navbar-brand">Tempest</a></div>
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
-        <li><a href="/">Notifications</a></li>
+        <%= if (user) { %>
+          <li><a href="/notifications">Notifications</a></li>
+        <% } %>
       </ul>
     </nav>
 
