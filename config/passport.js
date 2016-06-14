@@ -40,6 +40,16 @@ module.exports = function(passport){
     },
     function(req, username, password, done){
       process.nextTick(function(){
+        var lcusername = req.body.username.toLowerCase();
+        if(!lcusername.match(/^[0-9a-z]+$/)){
+          return done(null, false, req.flash('message', 'Username contains illegal characters'));
+        }
+        if(password.length < 7){
+          return done(null, false, req.flash('message', 'Your password is too short'));
+        }
+        if(!username.includes('@')){
+          return done(null, false, req.flash('message', 'Email field was filled incorrectly'));
+        }
         User.findOne({'email': username}, function(err, user){
           if(err){
             return done(err);
@@ -47,7 +57,7 @@ module.exports = function(passport){
           if(user){
             return done(null, false, req.flash('message', 'Email already in use'));
           }
-          var lcusername = req.body.username.toLowerCase();
+
           User.findOne({'username': lcusername}, function(err, user){
             if(err){
               return done(err);
@@ -55,6 +65,7 @@ module.exports = function(passport){
             if(user){
               return done(null, false, req.flash('message', 'Username already in use'));
             }
+
             var newUser = new User();
             newUser.username = lcusername;
             newUser.password = newUser.generateHash(password);

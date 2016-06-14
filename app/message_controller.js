@@ -25,9 +25,9 @@ exports.roomController = function(app){
       }
       if(room){
         /*todo: Check if the user is banned*/
-        res.render('room', {roomid: req.params.roomid, room: room, user: req.user, exists: true});
+        res.render('room', {roomid: req.params.roomid, room: room, user: req.user});
       }else{
-        res.render('room', {roomid: 'Error', description: '', user: req.user, exists: false});
+        next(err);
       }
     });
   });
@@ -67,31 +67,36 @@ exports.roomController = function(app){
 
   app.post('/new', requireLogin, function(req, res, next){
     var roomid = req.body.roomid.toLowerCase();
-    Room.findOne({roomid: roomid}, function(err, room){
-      if(err){
-        next(err);
-      }
-      if(room){
-        res.locals.message = req.flash('This room already exists. Please use another name');
-        res.redirect('/new');
-      }else{
-        var newroom = new Room();
-        newroom.roomid = roomid;
-        newroom.access = req.body.access;
-        newroom.creator = req.user.username;
-        newroom.description = req.body.description;
-        newroom.moderators = [req.user.username];
-        newroom.banned = [];
-        newroom.save(function(err){
-          if(err){
-            res.locals.message = req.flash('Required parameters are missing');
-            res.redirect('/new');
-          }else{
-            res.redirect('/rooms/' + req.body.roomid);
-          }
-        });
-      }
-    });
+    if(!roomid.match(/^[0-9a-z]%/)){
+      res.locals.message = req.flash('message', 'Room name contains illegal characters');
+      res.redirect('/new');
+    }else{
+      Room.findOne({roomid: roomid}, function(err, room){
+        if(err){
+          next(err);
+        }
+        if(room){
+          res.locals.message = req.flash('message', 'This room already exists. Please use another name');
+          res.redirect('/new');
+        }else{
+          var newroom = new Room();
+          newroom.roomid = roomid;
+          newroom.access = req.body.access;
+          newroom.creator = req.user.username;
+          newroom.description = req.body.description;
+          newroom.moderators = [req.user.username];
+          newroom.banned = [];
+          newroom.save(function(err){
+            if(err){
+              res.locals.message = req.flash('message', 'Required parameters are missing');
+              res.redirect('/new');
+            }else{
+              res.redirect('/rooms/' + req.body.roomid);
+            }
+          });
+        }
+      });
+    }
   });
 
   app.post('/edit/:roomid', requireLogin, function(req, res, next){
@@ -106,7 +111,7 @@ exports.roomController = function(app){
         room.description = req.body.description;
         room.save(function(err){
           if(err){
-            res.locals.message = req.flash('Required parameters are missing');
+            res.locals.message = req.flash('message', 'Required parameters are missing');
             res.redirect('/edit/' + req.body.roomid);
           }else{
             res.redirect('/rooms/' + req.body.roomid);

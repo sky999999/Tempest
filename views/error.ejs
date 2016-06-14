@@ -8,4 +8,6 @@
   <% } %>
 </div>
 
-<pre><%= error.stack %></pre>
+<% if(env === 'development') { %>
+  <pre><%= error.stack %></pre>
+<% } %>
