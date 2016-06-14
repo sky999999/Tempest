@@ -96,6 +96,10 @@ module.exports = function(app, passport){
     });
   });
 
+  app.get('/notifications', requireLogin, function(req, res){
+    res.render('notify', {user: req.user});
+  });
+
   messageController.roomController(app);
 
 };
