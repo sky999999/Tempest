@@ -32,11 +32,6 @@ exports.roomController = function(app){
     });
   });
 
-  app.get('/random', function(req, res){
-    var roomid = '/';
-    res.redirect(roomid);
-  });
-
   app.get('/search/:roomid', function(req, res){
     var query = req.params.roomid.toLowerCase();
     Room.find({roomid: new RegExp('^' + query)}, function(err, docs){
