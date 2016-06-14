@@ -16,10 +16,6 @@ var app = {
     this.user = $('#user').val();
   },
   connect : function(){
-    if(!(this.user)){
-      return;
-    }
-
     var self = this;
     var constructSocket = function(){
       return new SockJS('/tempest');
@@ -30,8 +26,10 @@ var app = {
 
     this.socket.onopen = function(){
       socketopened = true;
-      self.socket.send(JSON.stringify({type: 'join', 'user': self.user, room: self.currentroom}));
       self.socket.send(JSON.stringify({type: 'pullmessages', room: self.currentroom}));
+      if(self.user){
+        self.socket.send(JSON.stringify({type: 'join', 'user': self.user, room: self.currentroom}));
+      }
     };
     this.socket.onmessage = function(message){
       self.receive(message.data);
@@ -42,7 +40,9 @@ var app = {
   },
 
   disconnect: function(){
-    this.socket.send(JSON.stringify({type: 'exit', 'user': this.user, room: this.currentroom}));
+    if(this.user){
+      this.socket.send(JSON.stringify({type: 'exit', 'user': this.user, room: this.currentroom}));
+    }
     this.socket.close();
   },
 
@@ -67,7 +67,7 @@ var app = {
 
     var message = JSON.parse(data);
 
-    if(message.room !== this.currentroom){
+    if(message.room !== self.currentroom){
       return;
     }
 
@@ -75,7 +75,7 @@ var app = {
       $('#activeusers').empty();
       for(var user in message){
         if(user !== 'type' && user !== 'room'){
-          $('#activeusers').append('<a href="/users/' + user + '">' + user + '</a>&nbsp');
+          $('#activeusers').append('<a href="/users/' + user + '">' + user + '</a><br>');
         }
       }
       return;

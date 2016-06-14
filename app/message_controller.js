@@ -59,6 +59,12 @@ exports.roomController = function(app){
     res.render('new', {message: req.flash('message'), user: req.user});
   });
 
+  app.get('/edit/:roomid', requireLogin, function(req, res){
+    Room.findOne({roomid: req.params.roomid}, function(err, room){
+      res.render('edit', {message: req.flash('message'), user: req.user, roomid: room.roomid, description: room.description})
+    });
+  });
+
   app.post('/new', requireLogin, function(req, res, next){
     var roomid = req.body.roomid.toLowerCase();
     Room.findOne({roomid: roomid}, function(err, room){
@@ -101,8 +107,10 @@ exports.roomController = function(app){
         room.save(function(err){
           if(err){
             res.locals.message = req.flash('Required parameters are missing');
+            res.redirect('/edit/' + req.body.roomid);
+          }else{
+            res.redirect('/rooms/' + req.body.roomid);
           }
-          res.redirect('/rooms/' + req.body.roomid);
         });
       }
     });
