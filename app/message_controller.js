@@ -67,7 +67,7 @@ exports.roomController = function(app){
 
   app.post('/new', requireLogin, function(req, res, next){
     var roomid = req.body.roomid.toLowerCase();
-    if(!roomid.match(/^[0-9a-z]%/)){
+    if(!roomid.match(/^[0-9a-z]+$/)){
       res.locals.message = req.flash('message', 'Room name contains illegal characters');
       res.redirect('/new');
     }else{
