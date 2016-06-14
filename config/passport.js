@@ -47,7 +47,8 @@ module.exports = function(passport){
         if(password.length < 7){
           return done(null, false, req.flash('message', 'Your password is too short'));
         }
-        if(username.prototype.indexOf('@') < 0){
+        console.log(username);
+        if(username.indexOf('@') < 0){
           return done(null, false, req.flash('message', 'Email field was filled incorrectly'));
         }
         User.findOne({'email': username}, function(err, user){
