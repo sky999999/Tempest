@@ -101,10 +101,6 @@ $(function(){
   app.initialize();
   app.connect();
 
-  for(var i = 0; i < 5; ++i){
-    $('#popular').append('<a><strong>New room</strong></a><br><p>Description.txt</p>');
-  }
-
   if(typeof user !== 'undefined'){
     $('#messageform').submit(function(){
       var message = $("#messageinput").val();
