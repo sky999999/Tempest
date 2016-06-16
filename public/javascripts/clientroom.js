@@ -87,8 +87,8 @@ var app = {
     text = text.replace(/>/g, '&gt');
 
     if(message.type === 'post'){
-      var html = '<div></p><div class="messagetime">' + todatetime(message.time) + '</div><div class="message"><strong>' +
-        user + '</strong> ' + text + '</div></div>';
+      var html = '<div></p><div class="messagetime">' + todatetime(message.time) + '</div><p class="message"><strong>' +
+        user + '</strong> ' + text + '</p></div>';
       $('#messagebox').append(html);
       $('#messagebox').scrollTop(10000);
     }

@@ -11,7 +11,6 @@ a {
 
 p {
   line-height: 1.5em;
-  word-wrap: break-word;
 }
 
 nav{
@@ -107,6 +106,7 @@ nav{
 
 .message{
   width: 80%;
+  word-wrap: break-word;
 }
 
 .messagetime{
